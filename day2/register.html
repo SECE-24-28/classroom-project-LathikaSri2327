@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Register - Sky Recharge</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="api.js"></script>
+</head>
+<body>
+
+<header>
+    <div class="logo">
+        <h2>Sky Recharge</h2>
+    </div>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="login.html">Login</a>
+        <a href="register.html">Register</a>
+    </nav>
+</header>
+
+<div class="form-container">
+    <div class="form-box">
+
+        <h2>Create New Account</h2>
+        <form onsubmit="return registerUser(event)">
+            <input type="text" placeholder="Full Name" required>
+            <input type="email" placeholder="Email Address" required>
+            <input type="tel" placeholder="Mobile Number" required>
+            <input type="password" placeholder="Password" required>
+            <input type="password" placeholder="Confirm Password" required>
+            <button type="submit" class="btn">Register</button>
+            <p class="form-link">Already have an account? <a href="login.html">Login here</a></p>
+        </form>
+    </div>
+</div>
+
+<footer>
+    <div class="container">
+        <p>Sky Recharge - Fast & Secure Mobile Recharge</p>
+    </div>
+</footer>
+
+<script>
+async function registerUser(event) {
+    event.preventDefault();
+    
+    const fullName = document.querySelector('input[type="text"]').value;
+    const email = document.querySelector('input[type="email"]').value;
+    const mobile = document.querySelector('input[type="tel"]').value;
+    const password = document.querySelectorAll('input[type="password"]')[0].value;
+    const confirmPassword = document.querySelectorAll('input[type="password"]')[1].value;
+    
+    // Name validation
+    if (fullName.length < 2) {
+        alert('Full name must be at least 2 characters long');
+        return false;
+    }
+    
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        alert('Please enter a valid email address');
+        return false;
+    }
+    
+    // Mobile validation
+    const mobileRegex = /^[0-9]{10}$/;
+    if (!mobileRegex.test(mobile)) {
+        alert('Please enter a valid 10-digit mobile number');
+        return false;
+    }
+    
+    // Password validation
+    if (password.length < 6) {
+        alert('Password must be at least 6 characters long');
+        return false;
+    }
+    
+    // Confirm password validation
+    if (password !== confirmPassword) {
+        alert('Passwords do not match');
+        return false;
+    }
+    
+    // Show loading
+    const button = document.querySelector('button[type="submit"]');
+    button.textContent = 'Registering...';
+    button.disabled = true;
+    
+    try {
+        const response = await mockAPI.register({
+            name: fullName,
+            email,
+            mobile,
+            password
+        });
+        
+        if (response.success) {
+            alert(response.message + ' Please login.');
+            window.location.href = 'login.html';
+        } else {
+            alert(response.message);
+        }
+    } catch (error) {
+        alert('Registration failed. Please try again.');
+    } finally {
+        button.textContent = 'Register';
+        button.disabled = false;
+    }
+    
+    return false;
+}
+</script>
+
+</body>
+</html>
