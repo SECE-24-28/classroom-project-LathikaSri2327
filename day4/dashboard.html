@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard - Sky Recharge</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="api.js"></script>
+</head>
+<body>
+
+<header>
+    <div class="logo">
+        <h2>Sky Recharge</h2>
+    </div>
+    <nav>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="index.html">Logout</a>
+    </nav>
+</header>
+
+<div class="dashboard-container">
+    <div class="user-info">
+
+        <h2 id="welcomeMessage">Welcome, User!</h2>
+        <p>Choose your data plan and recharge instantly</p>
+    </div>
+
+    <div class="plans-section">
+        <h2>Data Plans</h2>
+        <div class="plans-grid">
+            <div class="plan-card" onclick="selectPlan('199', '1.5GB/Day', '28 Days')">
+                <h3>199</h3>
+                <p>1.5GB/Day</p>
+                <p>28 Days Validity</p>
+                <p>Unlimited Calls</p>
+                <button class="plan-btn">Select Plan</button>
+            </div>
+            <div class="plan-card" onclick="selectPlan('299', '2GB/Day', '28 Days')">
+                <h3>299</h3>
+                <p>2GB/Day</p>
+                <p>28 Days Validity</p>
+                <p>Unlimited Calls</p>
+                <button class="plan-btn">Select Plan</button>
+            </div>
+            <div class="plan-card" onclick="selectPlan('399', '2.5GB/Day', '28 Days')">
+                <h3>399</h3>
+                <p>2.5GB/Day</p>
+                <p>28 Days Validity</p>
+                <p>Unlimited Calls</p>
+                <button class="plan-btn">Select Plan</button>
+            </div>
+            <div class="plan-card" onclick="selectPlan('599', '3GB/Day', '56 Days')">
+                <h3>599</h3>
+                <p>3GB/Day</p>
+                <p>56 Days Validity</p>
+                <p>Unlimited Calls</p>
+                <button class="plan-btn">Select Plan</button>
+            </div>
+            <div class="plan-card" onclick="selectPlan('999', '3GB/Day', '84 Days')">
+                <h3>999</h3>
+                <p>3GB/Day</p>
+                <p>84 Days Validity</p>
+                <p>Unlimited Calls</p>
+                <button class="plan-btn">Select Plan</button>
+            </div>
+            <div class="plan-card" onclick="selectPlan('1499', '4GB/Day', '84 Days')">
+                <h3>1499</h3>
+                <p>4GB/Day</p>
+                <p>84 Days Validity</p>
+                <p>Unlimited Calls</p>
+                <button class="plan-btn">Select Plan</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="recharge-details" id="rechargeDetails" style="display: none;">
+        <h2>Recharge Details</h2>
+        <div class="details-card">
+            <p><strong>Mobile Number:</strong> <span id="mobileNumber">9876543210</span></p>
+            <p><strong>Selected Plan:</strong> <span id="selectedAmount"></span></p>
+            <p><strong>Data:</strong> <span id="selectedData"></span></p>
+            <p><strong>Validity:</strong> <span id="selectedValidity"></span></p>
+            <button class="btn" onclick="proceedToPayment()">Proceed to Payment</button>
+        </div>
+    </div>
+</div>
+
+
+
+<footer>
+    <div class="container">
+        <p>Sky Recharge - Fast & Secure Mobile Recharge</p>
+    </div>
+</footer>
+
+<script>
+// Load current user
+window.onload = function() {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+    if (currentUser.name) {
+        document.getElementById('welcomeMessage').textContent = `Welcome, ${currentUser.name}!`;
+    }
+};
+
+function selectPlan(amount, data, validity) {
+    document.getElementById('selectedAmount').textContent = amount;
+    document.getElementById('selectedData').textContent = data;
+    document.getElementById('selectedValidity').textContent = validity;
+    document.getElementById('rechargeDetails').style.display = 'block';
+    document.getElementById('rechargeDetails').scrollIntoView({ behavior: 'smooth' });
+}
+
+async function proceedToPayment() {
+    const mobileNumber = document.getElementById('mobileNumber').textContent;
+    const selectedAmount = document.getElementById('selectedAmount').textContent;
+    
+    // Validate mobile number
+    const mobileRegex = /^[0-9]{10}$/;
+    if (!mobileRegex.test(mobileNumber)) {
+        alert('Please enter a valid 10-digit mobile number');
+        return false;
+    }
+    
+    // Validate selected plan
+    if (!selectedAmount) {
+        alert('Please select a plan first');
+        return false;
+    }
+    
+    // Confirm payment
+    const confirmPayment = confirm(`Confirm recharge of ${selectedAmount} for ${mobileNumber}?`);
+    if (confirmPayment) {
+        const button = document.querySelector('.btn');
+        button.textContent = 'Processing Payment...';
+        button.disabled = true;
+        
+        try {
+            const response = await mockAPI.processPayment({
+                mobile: mobileNumber,
+                amount: selectedAmount,
+                planId: parseInt(selectedAmount === '199' ? 1 : selectedAmount === '299' ? 2 : selectedAmount === '399' ? 3 : selectedAmount === '599' ? 4 : selectedAmount === '999' ? 5 : 6)
+            });
+            
+            if (response.success) {
+                alert(`${response.message}\nTransaction ID: ${response.data.id}\nAmount: ${selectedAmount}\nMobile: ${mobileNumber}`);
+            } else {
+                alert(response.message);
+            }
+        } catch (error) {
+            alert('Payment failed. Please try again.');
+        } finally {
+            button.textContent = 'Proceed to Payment';
+            button.disabled = false;
+        }
+    }
+}
+</script>
+
+</body>
+</html>
