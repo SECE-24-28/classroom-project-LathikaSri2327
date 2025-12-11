@@ -1,0 +1,47 @@
+# Sky Recharge - Mobile Recharge Website
+# Project Requirements
+
+## Project Overview
+A mobile recharge website built using HTML, CSS, and JavaScript
+
+## Features Required
+1. User Registration System
+2. User Login System
+3. Dashboard with Data Plans
+4. Payment Processing
+5. Responsive Design
+6. Form Validations
+7. Mock API Integration
+
+## Technology Stack
+- Frontend: HTML5, CSS3, JavaScript (ES6+)
+- Storage: Browser localStorage
+- API: Mock API for simulating backend
+
+## Pages Required
+1. Landing Page (index.html)
+2. Login Page (login.html)
+3. Register Page (register.html)
+4. Dashboard Page (dashboard.html)
+
+## Design Requirements
+- Responsive design for mobile and desktop
+- Modern UI with animations
+- Color palette: #A75D5D, #D3756B, #F0997D, #FFC3A1
+- Custom cursor design
+- Background image with transparency
+
+## Functional Requirements
+- User registration with validation
+- User login with authentication
+- Data plan selection
+- Payment processing simulation
+- Transaction history
+- Form validations (email, password, mobile number)
+
+## Development Timeline
+- Day 1: Requirements gathering
+- Day 2: HTML structure
+- Day 3: CSS styling
+- Day 4: JavaScript validations
+- Day 5: Mock API integration
