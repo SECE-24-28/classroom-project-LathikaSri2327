@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Mobile Recharge</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header class="dashboard-header">
+            <h1>📱 Dashboard</h1>
+            <div class="user-info">
+                <span id="userName">Welcome</span>
+                <button class="btn btn-small" onclick="logout()">Logout</button>
+            </div>
+        </header>
+        
+        <div class="dashboard-content">
+            <div class="stats-section">
+                <div class="stat-card">
+                    <h3>💰 Wallet Balance</h3>
+                    <p class="stat-value">₹<span id="walletBalance">5000</span></p>
+                    <button class="btn btn-small" onclick="addMoney()">Add Money</button>
+                </div>
+                <div class="stat-card">
+                    <h3>📊 Total Recharges</h3>
+                    <p class="stat-value" id="totalRecharges">0</p>
+                </div>
+                <div class="stat-card">
+                    <h3>💳 Total Spent</h3>
+                    <p class="stat-value">₹<span id="totalSpent">0</span></p>
+                </div>
+            </div>
+
+            <div class="recharge-section">
+                <h2>Recharge Your Mobile</h2>
+                <form id="rechargeForm">
+                    <div class="form-group">
+                        <label for="mobileNumber">Mobile Number</label>
+                        <input type="tel" id="mobileNumber" required>
+                        <span class="error" id="mobileError"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="operator">Select Operator</label>
+                        <select id="operator" required>
+                            <option value="">Choose Operator</option>
+                            <option value="airtel">Airtel</option>
+                            <option value="jio">Jio</option>
+                            <option value="vi">Vi</option>
+                            <option value="bsnl">BSNL</option>
+                        </select>
+                        <span class="error" id="operatorError"></span>
+                    </div>
+                </form>
+            </div>
+
+            <div class="plans-section">
+                <div class="plans-header">
+                    <h2>Available Data Plans</h2>
+                    <div class="filter-controls">
+                        <input type="text" id="searchPlan" placeholder="Search plans...">
+                        <select id="filterPrice">
+                            <option value="all">All Prices</option>
+                            <option value="low">Under ₹300</option>
+                            <option value="mid">₹300 - ₹600</option>
+                            <option value="high">Above ₹600</option>
+                        </select>
+                        <select id="sortPlans">
+                            <option value="default">Default</option>
+                            <option value="price-low">Price: Low to High</option>
+                            <option value="price-high">Price: High to Low</option>
+                            <option value="validity">Validity</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="plansContainer" class="plans-grid">
+                    <p>Loading plans...</p>
+                </div>
+            </div>
+
+            <div class="history-section">
+                <h2>Transaction History</h2>
+                <div id="transactionHistory">
+                    <p>No transactions yet</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="js/dashboard.js"></script>
+</body>
+</html>
